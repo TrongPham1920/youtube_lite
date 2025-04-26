@@ -3,11 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE       = 'trong19/ytt_be'
-        DOCKER_TAG         = 'latest'
-        PROD_SERVER_PORT   = credentials('PROD_SERVER_PORT')   
-        PROD_SERVER_NAME   = credentials('PROD_SERVER_NAME')   
-        PROD_USER          = credentials('PROD_USER')
-        PROD_PASSWORD      = credentials('PROD_PASSWORD')
+        DOCKER_TAG         = 'latest'  
         TELEGRAM_BOT_TOKEN = credentials('TELEGRAM_BOT_TOKEN')
         TELEGRAM_CHAT_ID   = credentials('TELEGRAM_CHAT_ID')
     }
