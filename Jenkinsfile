@@ -17,11 +17,8 @@ pipeline {
 
         stage('Prepare Config') {
             steps {
-     
-                withCredentials([file(credentialsId: 'config_file', variable: 'CONFIG_FILE')]) {
-                    sh 'mkdir -p $WORKSPACE/config'
-                    sh 'cp $CONFIG_FILE $WORKSPACE/config'
-                }
+                echo '🧪 Running tests...' 
+
             }
         }
 
