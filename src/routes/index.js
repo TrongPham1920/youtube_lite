@@ -23,4 +23,8 @@ router.post(
   videoController.uploadChunk
 );
 router.post("/merge-chunks", videoController.mergeChunksAndUpload);
+router.get("/api/v1/videos", videoController.getAllVideos);
+router.post("/api/v1/videos", videoController.createVideo);
+router.get("/api/v1/videos/:id", videoController.getVideoById);
+
 module.exports = router;

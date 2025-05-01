@@ -1,7 +1,8 @@
 const fs = require("fs-extra");
 const path = require("path");
 const cloudinary = require("../utils/cloudinary");
-
+const videoModel = require("../models/video.model");
+const Channel = require("../models/channel.model");
 const UPLOAD_DIR = path.join(__dirname, "..", "uploads");
 
 exports.checkUploadedVideo = async (req, res) => {
@@ -105,5 +106,33 @@ exports.streamvideo = async (req, res) => {
     };
     res.writeHead(200, head);
     fs.createReadStream(filePath).pipe(res);
+  }
+};
+exports.getAllVideos = async (req, res) => {
+  try {
+    const videos = await videoModel.find().populate("channelId");
+    res.status(200).json(videos);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+exports.createVideo = async (req, res) => {
+  try {
+    const video = new videoModel(req.body);
+    await video.save();
+    res.status(201).json(video);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+exports.getVideoById = async (req, res) => {
+  try {
+    const video = await videoModel.findById(req.params.id).populate("channelId");
+    if (!video) {
+      return res.status(404).json({ message: "Video not found" });
+    }
+    res.json(video);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

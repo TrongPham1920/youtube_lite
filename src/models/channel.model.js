@@ -5,7 +5,7 @@ const channelSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     description: String,
-    avatar
+    avatar: { type: String },
   },
   { timestamps: true }
 );
