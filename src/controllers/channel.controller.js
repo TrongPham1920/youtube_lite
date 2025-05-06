@@ -47,3 +47,12 @@ exports.getAllChannels = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+exports.getChannelByUserId = async (req, res) => {
+  try {
+    const channel = await Channel.findOne({ userId: req.params.userId });
+    if (!channel) return res.status(404).json({ message: "Channel not found" });
+    res.json(channel);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
