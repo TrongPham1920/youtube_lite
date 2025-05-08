@@ -72,7 +72,7 @@ pipeline {
                         -p 5000:5000 \
                         ${DOCKER_IMAGE}:${DOCKER_TAG}
 
-                    echo '✅ Deployment complete.'
+                    echo '✅ Deployment be_ytb complete.'
                     """
                 }
             }
@@ -82,11 +82,11 @@ pipeline {
     post {
         success {
             cleanWs()
-            sendTelegramMessage("✅ Build #${BUILD_NUMBER} was successful! ✅")
+            sendTelegramMessage("✅ Build be_ytb #${BUILD_NUMBER} was successful! ✅")
         }
         failure {
             cleanWs()
-            sendTelegramMessage("❌ Build #${BUILD_NUMBER} failed. ❌")
+            sendTelegramMessage("❌ Build be_ytb #${BUILD_NUMBER} failed. ❌")
         }
     }
 }
