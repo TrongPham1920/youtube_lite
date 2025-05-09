@@ -27,6 +27,7 @@ router.get("/api/v1/videos/:id", videoController.getVideoById);
 router.get('/videos/channel/:channelId', videoController.getVideosByChannelId);
 router.delete("/api/v1/videos/:id", videoController.deleteVideo);
 router.patch("/api/v1/videos/:id", videoController.updateVideo);
+router.post("/api/v1/upload-image", upload.single('image'), videoController.uploadImage);
 // Channel
 router.post("/api/v1/channels", channelController.createChannel);
 router.put("/api/v1/channels/:id", channelController.updateChannel);

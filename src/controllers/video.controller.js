@@ -4,7 +4,10 @@ const cloudinary = require("../utils/cloudinary");
 const videoModel = require("../models/video.model");
 const Channel = require("../models/channel.model");
 const UPLOAD_DIR = path.join(__dirname, "..", "uploads");
-
+const multer = require("multer");
+// Set up multer for image uploads
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 exports.checkUploadedVideo = async (req, res) => {
   const filename = req.params.filename;
   const chunkDir = path.join(UPLOAD_DIR, filename);
@@ -197,5 +200,53 @@ exports.updateVideo = async (req, res) => {
   } catch (error) {
     console.error("Error updating video:", error);
     res.status(500).json({ message: error.message });
+  }
+};
+
+
+const { Readable } = require('stream');
+
+exports.uploadImage = async (req, res) => {
+  try {
+    const image = req.file;
+    if (!image) {
+      return res.status(400).json({ message: "No image uploaded" });
+    }
+
+    // Hàm tiện ích để upload Buffer lên Cloudinary
+    const uploadFromBuffer = (buffer) => {
+      return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          {
+            resource_type: "image",
+            folder: "images",
+          },
+          (error, result) => {
+            if (result) {
+              resolve(result);
+            } else {
+              reject(error);
+            }
+          }
+        );
+
+        // Chuyển Buffer thành Readable stream
+        const bufferStream = new Readable();
+        bufferStream.push(buffer);
+        bufferStream.push(null); // Kết thúc stream
+        bufferStream.pipe(stream);
+      });
+    };
+
+    // Upload Buffer lên Cloudinary
+    const result = await uploadFromBuffer(image.buffer);
+
+    res.status(200).json({
+      message: "Image uploaded successfully",
+      imageUrl: result.secure_url,
+    });
+  } catch (error) {
+    console.error("Error uploading image:", error.message, error.stack);
+    return res.status(500).json({ message: "Server error", error: error.message });
   }
 };
