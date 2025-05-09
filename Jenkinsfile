@@ -47,6 +47,12 @@ pipeline {
                 }
             }
         }
+        
+        stage('Check .envytb') {
+            steps {
+                sh 'ls -l /var/jenkins_home/.envytb'
+            }
+        }
 
         stage('Deploy to Production') {
             steps {
