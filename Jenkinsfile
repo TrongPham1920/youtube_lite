@@ -67,12 +67,11 @@ pipeline {
                     docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
 
                     echo '🏃‍♂️ Starting new container...'
-                    docker run -d \
-                        --name ytt_be \
-                        --env-file /root/.envytb \
+                    docker run -d --name ytt_be \
+                        --env-file /var/jenkins_home/.envytb \
                         -e NODE_ENV=production \
                         -p 5000:5000 \
-                        ${DOCKER_IMAGE}:${DOCKER_TAG}
+                        trong19/ytt_be:latest
 
                     echo '✅ Deployment be_ytb complete.'
                     """
