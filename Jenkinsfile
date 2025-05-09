@@ -67,7 +67,9 @@ pipeline {
                     docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
 
                     echo '🏃‍♂️ Starting new container...'
-                    docker run -d --name ytt_be \
+                    docker run -d \
+                        --name ytt_be \
+                        --env-file /root/.envytb \
                         -e NODE_ENV=production \
                         -p 5000:5000 \
                         ${DOCKER_IMAGE}:${DOCKER_TAG}
